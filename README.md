@@ -39,18 +39,25 @@ $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), 
     ```
     pip install pandas matplotlib
     ```
-### Result 
+### Run this Project
+#### Result 
 To directly get the result of the compliation, run, plot directly, run the following code:
 ```
 $ make result
 ```
+This repository is already had the executable file(main) inside the build directory, so you can run the project using the following code directly.
+```
+$ make run
+$ make plot
+```
 
-### Compliation
+#### Compliation
 To compile the project, run the following command in the project root directory:
 ```
 $ make
 ```
 This command will generate the main executable inside the build directory.
+
 ### Running the Program
 To run the program, use the following command:
 
