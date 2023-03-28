@@ -1,4 +1,4 @@
-#include "include/global.h"
+#include "../include/global.h"
 #include <random>
 #include <utility>
 #include <fstream>

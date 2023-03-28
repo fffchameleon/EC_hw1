@@ -1,17 +1,14 @@
-#include "include/rga.h"
-#include "include/global.h"
+#include "../include/rga.h"
+#include "../include/global.h"
 
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
-#include <vector>
 #include <algorithm>
-#include <ctime>
-using namespace std;
 
-vector<R_GA::Individual> R_GA::initialize_population(int dim) {
+std::vector<R_GA::Individual> R_GA::initialize_population(int dim) {
     int p_size = population_size;
-    vector<Individual> ret(p_size);
+    std::vector<Individual> ret(p_size);
     for (int i = 0; i < p_size; i++) {
         Individual tmp;
         for(int j = 0; j < dim; j++) {
@@ -32,9 +29,9 @@ void R_GA::evaluate_fitness(Individual& individual) {
     individual.fitness = fit;
 }
 
-vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is_uniform) {
-    vector<bool> selected(population_size, false);
-    vector<Individual> ret;
+std::vector<R_GA::Individual> R_GA::crossover(std::vector<Individual>& population, bool is_uniform) {
+    std::vector<bool> selected(population_size, false);
+    std::vector<Individual> ret;
     double tmp = rand_real(0, 1);
     if(tmp > crossover_prob) 
         return population;
@@ -44,7 +41,7 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
     while(t) {
         int parent1_idx, parent2_idx;
         while(1) {
-            tie(parent1_idx, parent2_idx) = generate_range(population_size-1);
+            std::tie(parent1_idx, parent2_idx) = generate_range(population_size-1);
             if(!selected[parent1_idx] && !selected[parent2_idx]) {
                 t--;
                 selected[parent1_idx] = true;
@@ -53,8 +50,9 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
             }
         }
         
+        // crossover, flag true when whole arithmetic crossover, false when uniform crossover
         parent1 = population[parent1_idx], parent2 = population[parent2_idx];
-        // flag true when 2-point crossover, false when uniform crossover
+        
         if(!is_uniform) {
             auto [l, r] = generate_range(gene_length - 1);
             offspring1 = parent1, offspring2 = parent2;
@@ -64,7 +62,7 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
                 offspring2.genes[i] = (parent2.genes[i] * alpha) + (parent1.genes[i] * (1-alpha));
             }
             
-        } else {    // better (compare to each bit uniform)
+        } else {
             offspring1 = parent1, offspring2 = parent2;
             for(int i = 0; i < dim_n; i++) {
                 if(rand_real(0, 1) > 0.5) {
@@ -82,25 +80,24 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
 
 }
 
-void R_GA::mutate(vector<Individual>& population) {
+void R_GA::mutate(std::vector<Individual>& population) {
     for(auto& i : population) {
         for(auto& j : i.genes) {
             double tmp = rand_real(0, 1);
             if(tmp < mutation_rate) {
                 j = rand_real(lower, upper);
             }
-            
         }
         evaluate_fitness(i);
     }
 }
 
-vector<R_GA::Individual> R_GA::survivor_selection(vector<Individual>& population, vector<Individual>& next_generation) {
+std::vector<R_GA::Individual> R_GA::survivor_selection(std::vector<Individual>& population, std::vector<Individual>& next_generation) {
     population.insert(population.end(), next_generation.begin(), next_generation.end());
-    sort(population.begin(), population.end(), [](const Individual& a, const Individual& b) {
+    std::sort(population.begin(), population.end(), [](const Individual& a, const Individual& b) {
         return a.fitness < b.fitness;}
     ); // increasing
-    vector<Individual> ret;
+    std::vector<Individual> ret;
     for(int i = 0; i < POPULATION_SIZE; i++) 
         ret.emplace_back(population[i]);
 
@@ -108,28 +105,29 @@ vector<R_GA::Individual> R_GA::survivor_selection(vector<Individual>& population
     return ret;
 }
 
-double R_GA::get_best_individual(vector<Individual>& population, int id) {
-    auto it = min_element(population.begin(), population.end(),
+double R_GA::get_best_individual(std::vector<Individual>& population, int id) {
+    auto it = std::min_element(population.begin(), population.end(),
                           [](const Individual& a, const Individual& b) {
                               return a.fitness < b.fitness;
                           });
     if((*it).fitness == 0 || id == times - 1) {
         for(auto j : (*it).genes) 
-            cout << j << " ";
-        cout << "\n";
+            std::cout << j << " ";
+        std::cout << "\n";
     }
     return (*it).fitness;
 }
 
-void R_GA::print_population(vector<Individual>& population) {
+// debug using
+void R_GA::print_population(std::vector<Individual>& population) {
     for(auto i : population) {
         for(auto j : i.genes) 
-            cout << j << " ";
-        cout << "\n";
+            std::cout << j << " ";
+        std::cout << "\n";
     }
 }
 void R_GA::evolution() {
-    vector<Individual> offspring, population;
+    std::vector<Individual> offspring, population;
     
     for(int i = 0; i < times; i++) {
         if(i == 0)
@@ -140,9 +138,9 @@ void R_GA::evolution() {
 
         double best = get_best_individual(population, i);
         rga_fit.push_back(best);
-        if((i % 50) == 0) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        if((i % 50) == 0) std::cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
         else if (best == 0) {
-            cout << "In " << i+1 << "th generation, the fitness " << best << "lower than 0.1\n";
+            std::cout << "In " << i+1 << "th generation, the fitness " << best << "lower than 0.1\n";
             break;
         }
     }

@@ -1,14 +1,15 @@
-#include "include/bga.h"
-#include "include/rga.h"
-#include "include/global.h"
+#include "../include/bga.h"
+#include "../include/rga.h"
+#include "../include/global.h"
+
 int main() {
     // cin.tie(0);
     // ios_base::sync_with_stdio(false);
-    cout << "Binary GA:\n";
+    std::cout << "Binary GA:\n";
     B_GA* bga = new B_GA;
     bga->evolution();
-    for(int i = 0; i < 100; i++) cout << "=";
-    cout << "\nReal-valued GA:\n";
+    for(int i = 0; i < 100; i++) std::cout << "=";
+    std::cout << "\nReal-valued GA:\n";
     R_GA* rga = new R_GA;
     rga->evolution();
 

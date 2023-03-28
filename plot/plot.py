@@ -12,8 +12,8 @@ def plot_data(filename):
     plt.title("Fitness per Generation")
     plt.legend()
     plt.grid(True)
-    plt.savefig("fitness_plot.png")  # Save the figure to a file
+    plt.savefig("data/fitness_plot.png")  # Save the figure to a file
     plt.show()
 
 if __name__ == "__main__":
-    plot_data("fitness.csv")
+    plot_data("data/fitness.csv")

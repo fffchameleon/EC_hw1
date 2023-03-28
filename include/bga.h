@@ -1,7 +1,10 @@
 #ifndef BGA_H 
 #define BGA_H 
-#include <bits/stdc++.h>
-using namespace std;
+
+#include <vector>
+#include <bitset>
+#include <tuple>
+#include <iostream>
 
 class B_GA
 {
@@ -13,7 +16,7 @@ private:
     static constexpr int gene_length = 10;
     
     struct Individual {
-        vector<bitset<gene_length>> genes;
+        std::vector<std::bitset<gene_length>> genes;
         double fitness;
         Individual() : genes(dim_n) {}
     };
@@ -23,24 +26,22 @@ public:
         crossover_n_point = crossover;
         population_size = pop_size, times = t;
         crossover_prob = cross_prob, mutation_rate = mut_rate;
-        
-        // if(dim < 1)  throw invalid_argument("Schwefel Function must have minimum 1 dimension, " + to_string(dim) + " requested");
     }
 
-    vector<Individual> initialize_population(int dim);
-    double get_xi(bitset<gene_length>& gene);
-    int bit2int(bitset<gene_length>& gene);
+    std::vector<Individual> initialize_population(int dim);
+    double get_xi(std::bitset<gene_length>& gene);
+    int bit2int(std::bitset<gene_length>& gene);
     void evaluate_fitness(Individual& individual);
     
-    vector<Individual> crossover(vector<Individual>& population, bool is_uniform);
+    std::vector<Individual> crossover(std::vector<Individual>& population, bool is_uniform);
     
-    void mutate(vector<Individual>& individual);
+    void mutate(std::vector<Individual>& individual);
     
-    vector<Individual> survivor_selection(vector<Individual>& population, vector<Individual>& next_gen);
+    std::vector<Individual> survivor_selection(std::vector<Individual>& population, std::vector<Individual>& next_gen);
 
-    double get_best_individual(vector<Individual>& population, int id);
+    double get_best_individual(std::vector<Individual>& population, int id);
     
-    void print_population(vector<Individual>& population);
+    void print_population(std::vector<Individual>& population);
 
     void evolution();
 
