@@ -28,5 +28,7 @@ run: $(EXECUTABLE)
 plot:
 	python3 $(PLOT_DIR)/plot.py
 
+result: all run plot 
+
 clean:
 	rm -f $(BUILD_DIR)/*.o $(EXECUTABLE)

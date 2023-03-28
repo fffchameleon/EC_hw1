@@ -36,10 +36,13 @@ $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), 
 ### Prerequisites
 - C++ compiler that supports C++17
 - Python 3.x with Matplotlib and Pandas installed
-### All 
-To run the compliation, run, plot directly, run the following code:
+    ```
+    pip install pandas matplotlib
+    ```
+### Result 
+To directly get the result of the compliation, run, plot directly, run the following code:
 ```
-$ make all
+$ make result
 ```
 
 ### Compliation
