@@ -1,8 +1,8 @@
 # EC_hw1_SCH
 
-This project implements binary GA and real-valued GA in C++17 with different operators to find the minimal solution of the Schwefel function (SCH), $N=10$:
+This project implements binary GA and real-valued GA in C++17 with different operators to find the minimal solution of the Schwefel function (SCH):
 
-$$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), \quad where -512 \leq x_{i} \leq 511\ $$ 
+$$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), \quad -512 \leq x_{i} \leq 511 \quad and \quad N=10$$ 
 ![](https://i.imgur.com/8ZlQxDA.png)
 
 ### Directory Structure
