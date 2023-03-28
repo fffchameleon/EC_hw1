@@ -41,44 +41,28 @@ $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), 
     ```
 ### Run this Project
 #### Result 
-To directly get the result of the compliation, run, plot directly, run the following code:
+To directly get the result of the compilation, run, plot directly, run the following code:
 ```
 $ make result
 ```
-This repository is already had the executable file(main) inside the build directory, so you can run the project using the following code directly.
+This repository already had the executable file(main) inside the build directory, so you can run the project using the following code directly.
 ```
 $ make run
 $ make plot
 ```
 
-#### Compliation
-To compile the project, run the following command in the project root directory:
-```
+#### Some command can use
+```bash
+# compile the project and generate the main executable inside the build directory.
 $ make
-```
-This command will generate the main executable inside the build directory.
 
-### Running the Program
-To run the program, use the following command:
-
-```
+# execute the main program and move the generated fitness.csv file to the data directory.
 $ make run
-```
-This command will execute the main program and move the generated fitness.csv file to the data directory.
 
-### Plotting the Fitness Data
-To plot the fitness data, run the following command:
+# execute the plot.py Python script inside the plot directory to generate a plot of the fitness data.
+$ make plot 
 
+# This command will remove the object files and the main executable from the build directory.
+$ make clean
 ```
-$ make plot
-```
-This command will execute the plot.py Python script inside the plot directory to generate a plot of the fitness data.
-
-### Cleaning up
-To clean up the build files, run the following command:
-
-```
-make clean
-```
-This command will remove the object files and the main executable from the build directory.
 ### 
