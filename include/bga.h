@@ -3,8 +3,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-static const int POPULATION_SIZE = 100;
-
 class B_GA
 {
 private:
@@ -34,8 +32,7 @@ public:
     int bit2int(bitset<gene_length>& gene);
     void evaluate_fitness(Individual& individual);
     
-    pair<int, int> generate_range(int range);
-    vector<Individual> crossover_2point(vector<Individual>& population);
+    vector<Individual> crossover(vector<Individual>& population, bool is_uniform);
     
     void mutate(vector<Individual>& individual);
     

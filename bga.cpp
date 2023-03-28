@@ -1,5 +1,5 @@
 #include "include/bga.h"
-#include "global.cpp"
+#include "include/global.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -48,18 +48,7 @@ void B_GA::evaluate_fitness(Individual& individual) {
     individual.fitness = fit;
 }
 
-pair<int, int> B_GA::generate_range(int range) {
-    int a = 0, b = 0;
-    while(a == b) {
-        a = rand_int(0, range);
-        b = rand_int(0, range);
-    }
-    if(a > b) swap(a, b);
-    pair<int, int> pi(a, b);
-    return pi;
-}
-
-vector<B_GA::Individual> B_GA::crossover_2point(vector<Individual>& population) {
+vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is_uniform) {
     vector<bool> selected(population_size, false);
     vector<Individual> ret;
     double tmp = rand_real(0, 1);
@@ -80,23 +69,43 @@ vector<B_GA::Individual> B_GA::crossover_2point(vector<Individual>& population) 
             }
         }
         
-        auto [l, r] = generate_range(gene_length - 1);
         parent1 = population[parent1_idx], parent2 = population[parent2_idx];
-        offspring1 = parent1, offspring2 = parent2;
+        // flag true when 2-point crossover, false when uniform crossover
+        if(!is_uniform) {
+            auto [l, r] = generate_range(gene_length - 1);
+            offspring1 = parent1, offspring2 = parent2;
 
-        if(rand_real(0, 1) > 0.5) {
             for(int i = l; i < r; i++) {
                 bitset<gene_length> tmp;
                 tmp = offspring1.genes[i];
                 offspring1.genes[i] = offspring2.genes[i];
                 offspring2.genes[i] = tmp;
             }
+        } else {    // better (compare to each bit uniform)
+            offspring1 = parent1, offspring2 = parent2;
+            for(int i = 0; i < dim_n; i++) {
+                if(rand_int(0, 1) > 0.5) {
+                    offspring1.genes[i] = parent2.genes[i];
+                    offspring2.genes[i] = parent1.genes[i];
+                }
+            }
+
+            // for(int i = 0; i < dim_n; i++) {
+            //     bitset<gene_length> mask1, mask2;
+            //     for(int j = 0; j < gene_length; j++) {
+            //         if(rand_real(0, 1) > 0.5)   mask1.set(j);
+            //         else                        mask1.reset(j);
+            //     }
+            //     mask2 = mask1;  mask2.flip();
+            //     offspring1.genes[i] = (mask1 & parent1.genes[i]) | (mask2 & parent2.genes[i]);
+            //     offspring2.genes[i] = (mask2 & parent1.genes[i]) | (mask1 & parent2.genes[i]);
+            // }
         }
-        evaluate_fitness(offspring1);
-        evaluate_fitness(offspring2);
         ret.emplace_back(offspring1);
         ret.emplace_back(offspring2);
     }
+    for(auto &i : ret)
+        evaluate_fitness(i);
     return ret;
 
 }
@@ -133,7 +142,7 @@ double B_GA::get_best_individual(vector<Individual>& population, int id) {
                           [](const Individual& a, const Individual& b) {
                               return a.fitness < b.fitness;
                           });
-    if(id == times - 1) {
+    if((*it).fitness < 1 || id == times - 1) {
         for(auto j : (*it).genes) 
             cout << bit2int(j) << " ";
         cout << "\n";
@@ -148,16 +157,25 @@ void B_GA::print_population(vector<Individual>& population) {
         cout << "\n";
     }
 }
+
 void B_GA::evolution() {
     vector<Individual> offspring, population;
+    
     for(int i = 0; i < times; i++) {
         if(i == 0)
             population = initialize_population(dim_n);
-        offspring = crossover_2point(population);
+        offspring = crossover(population, true);
         mutate(population);
         population = survivor_selection(population, offspring);
 
-        cout << "In " << i+1 << "th generation, the best fitness is: " << get_best_individual(population, i) << "\n";  
+        double best = get_best_individual(population, i);
+        bga_fit.push_back(best);
+        if((i % 50) == 0) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        else if (best < 0.1) {
+            cout << "In " << i+1 << "th generation, the fitness " << best << "lower than 0.1\n";
+            break;
+        }
     }
+    
     return;
 }
