@@ -93,7 +93,7 @@ make clean
 ### Class Diagram
 
 <p align="center">
-<img src="show/class_diagrma.png" width="800">
+<img src="show/class_diagram.png" width="800">
 </p>
 
 ### Result
