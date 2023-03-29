@@ -18,8 +18,9 @@ main: $(SRC_FILES)
 
 .PHONY: run
 run: all
-	./main $(ARGS)
-
+	for p in $$(seq 100 200 1100); do \
+		./main --p_size $$p; \
+	done
 plot:
 	python3 $(PLOT_DIR)/plot.py
 

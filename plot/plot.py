@@ -1,19 +1,31 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_data(filename):
-    data = pd.read_csv(filename)
+folder_path = 'data'
+output_file = 'show/population.png'
+filename_pattern = 'avgfitness_p_size'
+csv_files = [f for f in os.listdir(folder_path) if f.startswith(filename_pattern)]
 
-    plt.figure(figsize=(12, 7))
-    plt.plot(data["Binary"], label="Binary GA Fitness")
-    plt.plot(data["Real"], label="Real GA Fitness")
-    plt.xlabel("Generation")
-    plt.ylabel("Fitness (30 avg trials)")
-    plt.title("Fitness per Generation")
-    plt.legend()
-    plt.grid(True)
-    plt.savefig("data/fitness_plot.png")  # Save the figure to a file
-    plt.show()
+plt.figure(figsize=(12, 8))
 
-if __name__ == "__main__":
-    plot_data("data/avg_fitness.csv")
+for file in csv_files:
+    file_path = os.path.join(folder_path, file)
+    data = pd.read_csv(file_path)
+    
+    p_size = int(file.split('_')[-1].split('.')[0])
+    
+    plt.plot(data['Binary'], label=f'binary_{p_size}')
+    plt.plot(data['Real'], label=f'real_{p_size}')
+
+plt.title('Independent variable: population size')
+plt.xlabel('Generation')
+plt.ylabel('Avg Fitness (30 trials)')
+plt.legend()
+plt.savefig(output_file)
+plt.show()
+
+
+
+
+
