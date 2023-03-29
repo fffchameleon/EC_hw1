@@ -8,13 +8,13 @@ $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), 
 <img src="show/spec.png">
 </p>
 
-### Prerequisites
+## Prerequisites
 - C++ compiler that supports C++17
 - Python 3.x with Matplotlib and Pandas installed
     ```
     pip install pandas matplotlib
     ```
-### Run this Project
+## Run this Project
 To run the program, use the following command:
 ```bash
 make run ARGS="arg1 arg2"
@@ -65,9 +65,8 @@ make plot
 # This command will remove the object files and the main executable from the build directory.
 make clean
 ```
-### 
 
-### Directory Structure
+## Directory Structure
 
     .
     ├── Makefile 
@@ -90,13 +89,13 @@ make clean
          ├── main.cpp
          └── rga.cpp
 
-### Class Diagram
+## Class Diagram
 
 <p align="center">
-<img src="show/class_diagram.png" width="800">
+<img src="show/class_diagram.png" width="600">
 </p>
 
-### Result
+## Result
 The below image shows the default arguments setting fitness. <br>
 (population_size: 100, termination: 500 generations, tournament selection: 2 parents each tournament <br>
  crossover probability: 0.9, mutation probability: 0.1)
