@@ -3,7 +3,10 @@
 This project implements binary GA and real-valued GA in C++17 with different operators to find the minimal solution of the Schwefel function (SCH):
 
 $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), \quad -512 \leq x_{i} \leq 511 \quad and \quad N=10$$ 
+
+<p align="center">
 <img src="show/spec.png">
+</p>
 
 ### Directory Structure
 
@@ -60,7 +63,7 @@ make run ARGS="--help"
 # or
 main --help
 ```
-#### Result 
+#### Get Result 
 To directly get the result of the compilation, run, plot directly, run the following code (using default arguments),
 ```bash
 make result
@@ -86,3 +89,12 @@ make plot
 make clean
 ```
 ### 
+
+#### Result
+The below image shows the default arguments setting fitness. <br>
+(population_size: 100, termination: 500 generations, tournament selection: 2 parents each tournament <br>
+ crossover probability: 0.9, mutation probability: 0.1)
+
+<p align="center">
+<img src="data/fitness_plot.png" width="800">
+</p>
