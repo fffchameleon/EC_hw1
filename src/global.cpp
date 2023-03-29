@@ -1,15 +1,66 @@
 #include "../include/global.h"
-#include <random>
-#include <utility>
-#include <fstream>
-#include <vector>
 
-const int POPULATION_SIZE = 100;
+#include <fstream>
+#include <iomanip>
+int p_select = 2;
+int POPULATION_SIZE = 100;
+double cross_prob = 0.9;
+double mut_prob = 0.1;
+int trial = 30;
+int term = 500;
+bool is_uniform = true;
+std::map<std::string, std::string> values = {{"p_select", "2"},
+                                                {"p_size", "100"},
+                                                {"cross_prob", "0.9"},
+                                                {"mut_prob", "0.1"},
+                                                {"trial", "30"},
+                                                {"term", "500"},
+                                                {"uniform", "1"},
+                                                {"n_point", "2"}};
+void initialize(int argc, char* argv[]) {
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg.substr(0, 2) == "--") {
+            std::string key = arg.substr(2);
+            if (i + 1 < argc && argv[i + 1][0] != '-') {
+                values[key] = argv[++i];
+            } else {
+                values[key] = "";
+            }
+        }
+    }
+
+    p_select = std::stoi(values["p_select"]);
+    POPULATION_SIZE = std::stoi(values["p_size"]);
+    cross_prob = std::stod(values["cross_prob"]);
+    mut_prob = std::stod(values["mut_prob"]);
+    trial = std::stoi(values["trial"]);
+    term = std::stoi(values["term"]);
+    is_uniform = (std::stoi(values["uniform"]) != 0);
+    
+    const int num_columns = 2;
+    const int column_width = 15;
+    const int frame_width = num_columns * column_width + 3;
+    std::cout << std::string(frame_width, '-') << "\n";
+    std::cout << '|' << std::left << std::setw(column_width) << "Parameter"
+              << '|' << std::left << std::setw(column_width) << "Value" << '|' << "\n";
+    std::cout << std::string(frame_width, '-') << "\n";
+    for(auto i : values) {
+         std::cout << '|' << std::left << std::setw(column_width) << i.first
+              << '|' << std::left << std::setw(column_width) << i.second << '|' << "\n";
+    }
+    std::cout << std::string(frame_width, '-') << "\n";
+}
 const int lower = -512;
 const int upper = 511;
 
-std::vector<double> bga_fit;
-std::vector<double> rga_fit;
+// avg_fitness
+std::vector<double> bga_fit(term, 0);
+std::vector<double> rga_fit(term, 0);
+
+// best_fitness
+// std::vector<double> bga_fit(term, __DBL_MAX__);
+// std::vector<double> rga_fit(term, __DBL_MAX__);
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -54,3 +105,4 @@ void write_to_file(const std::vector<double>& binary_data, const std::vector<dou
 
     file.close();
 }
+

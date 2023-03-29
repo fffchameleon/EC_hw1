@@ -5,10 +5,10 @@ def plot_data(filename):
     data = pd.read_csv(filename)
 
     plt.figure(figsize=(12, 7))
-    plt.plot(data["Binary"], label="Binary Fitness")
-    plt.plot(data["Real"], label="Real Fitness")
+    plt.plot(data["Binary"], label="Binary GA Fitness")
+    plt.plot(data["Real"], label="Real GA Fitness")
     plt.xlabel("Generation")
-    plt.ylabel("Fitness")
+    plt.ylabel("Fitness (30 avg trials)")
     plt.title("Fitness per Generation")
     plt.legend()
     plt.grid(True)
@@ -16,4 +16,4 @@ def plot_data(filename):
     plt.show()
 
 if __name__ == "__main__":
-    plot_data("data/fitness.csv")
+    plot_data("data/avg_fitness.csv")

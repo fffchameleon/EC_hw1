@@ -1,29 +1,24 @@
 CXX = g++
-CXXFLAGS = -std=c++17
+CXXFLAGS=-std=c++17 -Wall -O2 -fsanitize=address -g
 
 SRC_DIR = src
 INCLUDE_DIR = include
-DATA_DIR = data
-BUILD_DIR = build
 PLOT_DIR = plot
 
-SRC_FILES = $(SRC_DIR)/main.cpp $(SRC_DIR)/bga.cpp $(SRC_DIR)/rga.cpp $(SRC_DIR)/global.cpp
-OBJ_FILES = $(BUILD_DIR)/main.o $(BUILD_DIR)/bga.o $(BUILD_DIR)/rga.o $(BUILD_DIR)/global.o
+SRC_FILES = $(SRC_DIR)/main.cpp $(SRC_DIR)/bga.cpp $(SRC_DIR)/rga.cpp $(SRC_DIR)/global.cpp 
 
-EXECUTABLE = $(BUILD_DIR)/main
+EXECUTABLE = ./main
+OBJS = main
 
-.PHONY: all plot clean
+.PHONY: all
+all: $(OBJS)
 
-all: $(EXECUTABLE)
+main: $(SRC_FILES)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-$(EXECUTABLE): $(OBJ_FILES)
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -o $@ $^
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c -o $@ $<
-
-run: $(EXECUTABLE)
-	./$(EXECUTABLE) && mv fitness.csv $(DATA_DIR)/fitness.csv
+.PHONY: run
+run: all
+	./main $(ARGS)
 
 plot:
 	python3 $(PLOT_DIR)/plot.py
@@ -31,4 +26,4 @@ plot:
 result: all run plot 
 
 clean:
-	rm -f $(BUILD_DIR)/*.o $(EXECUTABLE)
+	rm $(EXECUTABLE)
