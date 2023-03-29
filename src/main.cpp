@@ -17,6 +17,8 @@ int main(int argc, char* argv[]) {
         std::cout << "  --n_point <value>    Set the number of crossover points (only for binary GA) (default: 2)\n\n";
         return 0;
     } 
+    string test = argv[1];
+    test = test.substr(2);
     for(int i = 0; i < 90; i++) std::cout << "=" << "\n"[i!=89];
 
     for(int t = 0; t < trial; t++) {
@@ -39,7 +41,7 @@ int main(int argc, char* argv[]) {
         bga_fit[i] /= double(trial);
         rga_fit[i] /= double(trial);
     }
-    string fileName = "./data/avg_fitness.csv";
+    string fileName = "./data/avgfitness_" + test + "_" + values[test] + ".csv";
     write_to_file(bga_fit, rga_fit, fileName);
     return 0;
 }
