@@ -3,7 +3,7 @@
 This project implements binary GA and real-valued GA in C++17 with different operators to find the minimal solution of the Schwefel function (SCH):
 
 $$ f_{SCH}(\vec{x}) = 418.98291N − \sum_{i=1}^{N} x_{i}\sin(\sqrt{| x_i |} ), \quad -512 \leq x_{i} \leq 511 \quad and \quad N=10$$ 
-![](./show/spec.png)
+<img src="show/spec.png">
 
 ### Directory Structure
 
@@ -45,27 +45,27 @@ where arg1 and arg2 are optional command-line arguments.
 
 | General Argument          | Description                                                                                                   |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `--p_select`         | Set the number of tournament selection when parent selection period (default: 2)                                                                   |
-| `-p_size`           |Set the population size (default: 100)                                                                           |
-| `--cross_prob`                  | Set the crossover probability (default: 0.9)                                                                           |
-| `--mut_prob`     | Set the mutation probability (default: 0.1)                                                        |
-| `--trial`   | Set the number of trials (default: 30)                                                                |
-| `--term`    | Set the termination criterion (default: 500)                                                                        |
-| `--uniform`, `-fe` | Use uniform crossover (1) or 2-point for binary GA, whole arithmetic for real-valued GA (0) (default: 1)                                                      |
-| `--n_point`, `-tg`       | Set the number of crossover points (only for binary GA) (default: 2)                                                                 |
+| `--p_select`              | Set the number of tournament selection when parent selection period (default: 2)                              |
+| `--p_size`                 | Set the population size (default: 100)                                                                        |
+| `--cross_prob`            | Set the crossover probability (default: 0.9)                                                                  |
+| `--mut_prob`              | Set the mutation probability (default: 0.1)                                                                   |
+| `--trial`                 | Set the number of trials (default: 30)                                                                        |
+| `--term`                  | Set the termination criterion (default: 500)                                                                  |
+| `--uniform`               | Use uniform crossover (1) or 2-point for binary GA, whole arithmetic for real-valued GA (0) (default: 1)      |
+| `--n_point`               | Set the number of crossover points (only for binary GA) (default: 2)                                          |
 
 If the --help option is set, the program will print the usage information and exit.
-```
+```bash
 make run ARGS="--help"
 # or
 main --help
 ```
 #### Result 
-To directly get the result of the compilation, run, plot directly, run the following code:
+To directly get the result of the compilation, run, plot directly, run the following code (using default arguments),
 ```bash
 make result
 ```
-This repository already had the executable file(main), you can run the project using the following code directly.
+This repository already had the executable file(main), you can run the project using the following code directly (using default arguments).
 ```bash
 make run
 make plot
