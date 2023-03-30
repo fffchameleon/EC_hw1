@@ -7,6 +7,7 @@ int main(int argc, char* argv[]) {
     if (values.find("help") != values.end()) {
         std::cout << "Usage: ./main [options]\n\n";
         std::cout << "Options:\n";
+        std::cout << "  --algorithm <value>  Set the algorithm to use real, binary or both(default: both)\n";
         std::cout << "  --p_select <value>   Set the number of tournament selection when parent selection period (default: 2)\n";
         std::cout << "  --p_size <value>     Set the population size (default: 100)\n";
         std::cout << "  --cross_prob <value> Set the crossover probability (default: 0.9)\n";

@@ -18,7 +18,9 @@ main: $(SRC_FILES)
 
 .PHONY: run
 run: all
-	for p in $$(seq 100 300 1000); do \
+	./main $(ARGS)
+#	./main
+#	for p in $$(seq 100 300 1000); do \
 		time ./main --p_size $$p; \
 	done
 
@@ -30,13 +32,13 @@ run: all
 	 	time ./main --mut_prob $$p; \
 	done
 
-# 	for p in $$(seq 0 1); do \
-# 		time ./main --uniform $$p; \
-# 	done
+#	for p in $$(seq 0 1 1); do \
+		time ./main --uniform $$p; \
+	done
 
 #	for p in $$(seq 500 300 1100); do \
-#		time ./main --term $$p; \
-#	done	
+		time ./main --term $$p; \
+	done	
 
 .PHONY: plot
 plot:
@@ -45,4 +47,4 @@ plot:
 result: all run plot 
 
 clean:
-	rm $(EXECUTABLE)
+	rm $(EXECUTABLE) && rm -r ./data/*
