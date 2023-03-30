@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iomanip>
 #include <chrono>
+#include <set>
+bool real = true;
+bool binary = true;
 int p_select = 2;
 int POPULATION_SIZE = 100;
 double cross_prob = 0.9;
@@ -10,7 +13,8 @@ double mut_prob = 0.1;
 int trial = 30;
 int term = 500;
 bool is_uniform = true;
-std::map<std::string, std::string> values = {{"p_select", "2"},
+std::map<std::string, std::string> values = {   {"algorithm", "both"},
+                                                {"p_select", "2"},
                                                 {"p_size", "100"},
                                                 {"cross_prob", "0.9"},
                                                 {"mut_prob", "0.1"},
@@ -41,6 +45,9 @@ void initialize(int argc, char* argv[]) {
     rga_fit.resize(term, 0);
     is_uniform = (std::stoi(values["uniform"]) != 0);
     
+    real = (values["algorithm"] == "both" || values["algorithm"] == "real")? true : false;
+    binary = (values["algorithm"] == "both" || values["algorithm"] == "binary")? true : false;
+
     const int num_columns = 2;
     const int column_width = 15;
     const int frame_width = num_columns * column_width + 3;
@@ -68,6 +75,14 @@ std::vector<double> rga_fit;
 std::random_device rd;
 std::mt19937 gen(rd());
 
+std::vector<int> generate_crossover_points(int n, int min_val, int max_val) {
+    std::set<int> points;
+    while (points.size() < static_cast<std::set<int>::size_type>(n)) {
+        points.insert(rand_int(min_val, max_val - 1));
+    }
+    return std::vector<int>(points.begin(), points.end());
+}
+
 int rand_int(int min, int max) {
     std::uniform_int_distribution<> dis(min, max);
     return dis(gen);
@@ -86,25 +101,27 @@ double generate_alpha(int up) {
     return a;
 }
 
-std::pair<int, int> generate_range(int range) {
-    int a = 0, b = 0;
-    while(a == b) {
-        a = rand_int(0, range);
-        b = rand_int(0, range);
-    }
-    if(a > b) std::swap(a, b);
-    std::pair<int, int> pi(a, b);
-    return pi;
-}
-
 void write_to_file(const std::vector<double>& binary_data, const std::vector<double>& real_data, const std::string& filename) {
     std::ofstream file(filename);
 
-    file << "Binary,Real\n";
-
-    for (size_t i = 0; i < binary_data.size(); ++i) {
-        file << binary_data[i] << "," << real_data[i] << "\n";
+    if(binary && real) {
+        file << "Binary,Real\n";
+        for (size_t i = 0; i < binary_data.size(); ++i) 
+            file << binary_data[i] << "," << real_data[i] << "\n";
     }
+    else if(binary) {
+        file << "Binary\n";
+        for (size_t i = 0; i < binary_data.size(); ++i) 
+            file << binary_data[i] << "\n";
+    
+    }      
+    else if(real)   {
+        file << "Real\n";
+        for (size_t i = 0; i < binary_data.size(); ++i) 
+            file << real_data[i] << "\n";
+    
+    }
+    
 
     file.close();
 }

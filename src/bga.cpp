@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <ctime>
+#include <queue>
 
 vector<B_GA::Individual> B_GA::initialize_population(int dim) {
     vector<Individual> ret(POPULATION_SIZE);
@@ -44,6 +45,41 @@ void B_GA::evaluate_fitness(Individual& individual) {
     individual.fitness = fit;
 }
 
+pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<bool>& selected, vector<Individual>& population) {
+    vector<int> parent_candidate;
+    int p = p_select;
+    while(p) {
+        vector<bool> candidate(POPULATION_SIZE, false);
+
+        int candidate_i = rand_int(0, POPULATION_SIZE-1);
+        if(!candidate[candidate_i] && !selected[candidate_i]) {
+            p--;
+            candidate[candidate_i] = true;
+            parent_candidate.emplace_back(candidate_i);
+        }
+    }
+
+    int first_min_id = -1;
+    int second_min_id = -1;
+    double first_min_fitness = std::numeric_limits<double>::max();
+    double second_min_fitness = std::numeric_limits<double>::max();
+
+    for (int id : parent_candidate) {
+        if (population[id].fitness < first_min_fitness) {
+            second_min_fitness = first_min_fitness;
+            second_min_id = first_min_id;
+            first_min_fitness = population[id].fitness;
+            first_min_id = id;
+        } else if (population[id].fitness < second_min_fitness) {
+            second_min_fitness = population[id].fitness;
+            second_min_id = id;
+        }
+    }
+    selected[first_min_id] = true;
+    selected[second_min_id] = true;
+    return {population[first_min_id], population[second_min_id]};
+}
+
 vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is_uniform) {
     if(rand_real(0, 1) > cross_prob) 
         return population;
@@ -52,31 +88,37 @@ vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is
     vector<Individual> offspring;
 
     // parent selection
-    int t = POPULATION_SIZE / p_select;
+    int t = POPULATION_SIZE / 2;
     Individual parent1, parent2, offspring1, offspring2;
-    while(t) {
-        int parent1_idx, parent2_idx;
-        while(1) {
-            tie(parent1_idx, parent2_idx) = generate_range(POPULATION_SIZE-1);
-            if(!selected[parent1_idx] && !selected[parent2_idx]) {
-                t--;
-                selected[parent1_idx] = true;
-                selected[parent2_idx] = true;
-                break;
-            }
-        }
-        
-        parent1 = population[parent1_idx], parent2 = population[parent2_idx];
-        if(!is_uniform) {  // 2-point crossover
-            auto [l, r] = generate_range(gene_length - 1);
+    while(t--) {
+        tie(parent1, parent2) = parent_selection(selected, population);
+        if(!is_uniform) {  // n-point crossover
+            vector<int> crossover_points = generate_crossover_points(n_point, 1, gene_length - 1);
             offspring1 = parent1, offspring2 = parent2;
 
-            for(int i = l; i < r; i++) {
-                bitset<gene_length> tmp;
-                tmp = offspring1.genes[i];
-                offspring1.genes[i] = offspring2.genes[i];
-                offspring2.genes[i] = tmp;
+            bool swap_flag = false;
+            int point_idx = 0;
+            for(int i = 0; i < gene_length; i++) {
+                if(point_idx < n_point && i == crossover_points[point_idx]) {
+                    swap_flag = !swap_flag;
+                    point_idx++;
+                }
+                if(swap_flag) {
+                    bitset<gene_length> tmp;
+                    tmp = offspring1.genes[i];
+                    offspring1.genes[i] = offspring2.genes[i];
+                    offspring2.genes[i] = tmp;
+                }
             }
+            // auto [l, r] = generate_range(gene_length - 1);
+            // offspring1 = parent1, offspring2 = parent2;
+
+            // for(int i = l; i < r; i++) {
+            //     bitset<gene_length> tmp;
+            //     tmp = offspring1.genes[i];
+            //     offspring1.genes[i] = offspring2.genes[i];
+            //     offspring2.genes[i] = tmp;
+            // }
         } else {    // better (compare to each bit uniform)
             offspring1 = parent1, offspring2 = parent2;
             for(int i = 0; i < dim_n; i++) {
@@ -152,7 +194,7 @@ void B_GA::evolution() {
 
         double best = get_best_fitness(population, i);
         bga_fit[i] += best;
-        // if(i == 0 && i != term - 1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        // if(i == 0)  cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
     }
     
     return;

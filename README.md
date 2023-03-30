@@ -25,14 +25,15 @@ where arg1 and arg2 are optional command-line arguments.
 
 | General Argument          | Description                                                                                                   |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `--p_select`              | Set the number of tournament selection when parent selection period (default: 2)                              |
-| `--p_size`                 | Set the population size (default: 100)                                                                        |
+| `--algorithm`             | Set the algorithm to use. Only binary, only real or both (default: both)                                      |
 | `--cross_prob`            | Set the crossover probability (default: 0.9)                                                                  |
 | `--mut_prob`              | Set the mutation probability (default: 0.1)                                                                   |
-| `--trial`                 | Set the number of trials (default: 30)                                                                        |
-| `--term`                  | Set the termination criterion (default: 500)                                                                  |
-| `--uniform`               | Use uniform crossover (1) or 2-point for binary GA, whole arithmetic for real-valued GA (0) (default: 1)      |
 | `--n_point`               | Set the number of crossover points (only for binary GA) (default: 2)                                          |
+| `--p_select`              | Set the number of tournament selection when parent selection period (default: 2)                              |
+| `--p_size`                | Set the population size (default: 100)                                                                        |
+| `--term`                  | Set the termination criterion (default: 500)                                                                  |
+| `--trial`                 | Set the number of trials (default: 30)                                                                        |
+| `--uniform`               | Use uniform crossover (1) or 2-point for binary GA, whole arithmetic for real-valued GA (0) (default: 1)      |
 
 If the --help option is set, the program will print the usage information and exit.
 ```bash

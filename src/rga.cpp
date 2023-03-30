@@ -29,6 +29,41 @@ void R_GA::evaluate_fitness(Individual& individual) {
     individual.fitness = fit;
 }
 
+pair<R_GA::Individual, R_GA::Individual> R_GA::parent_selection(vector<bool>& selected, vector<Individual>& population) {
+    vector<int> parent_candidate;
+    int p = p_select;
+    while(p) {
+        vector<bool> candidate(POPULATION_SIZE, false);
+
+        int candidate_i = rand_int(0, POPULATION_SIZE-1);
+        if(!candidate[candidate_i] && !selected[candidate_i]) {
+            p--;
+            candidate[candidate_i] = true;
+            parent_candidate.emplace_back(candidate_i);
+        }
+    }
+
+    int first_min_id = -1;
+    int second_min_id = -1;
+    double first_min_fitness = std::numeric_limits<double>::max();
+    double second_min_fitness = std::numeric_limits<double>::max();
+
+    for (int id : parent_candidate) {
+        if (population[id].fitness < first_min_fitness) {
+            second_min_fitness = first_min_fitness;
+            second_min_id = first_min_id;
+            first_min_fitness = population[id].fitness;
+            first_min_id = id;
+        } else if (population[id].fitness < second_min_fitness) {
+            second_min_fitness = population[id].fitness;
+            second_min_id = id;
+        }
+    }
+    selected[first_min_id] = true;
+    selected[second_min_id] = true;
+    return {population[first_min_id], population[second_min_id]};
+}
+
 vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is_uniform) {
     if(rand_real(0, 1) > cross_prob) 
         return population;
@@ -37,21 +72,11 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
     vector<Individual> offspring;
     
     // parent selection
-    int t = POPULATION_SIZE / p_select;
+    int t = POPULATION_SIZE / 2;
     Individual parent1, parent2, offspring1, offspring2;
-    while(t) {
-        int parent1_idx, parent2_idx;
-        while(1) {
-            tie(parent1_idx, parent2_idx) = generate_range(POPULATION_SIZE-1);
-            if(!selected[parent1_idx] && !selected[parent2_idx]) {
-                t--;
-                selected[parent1_idx] = true;
-                selected[parent2_idx] = true;
-                break;
-            }
-        }
+    while(t--) {
+        tie(parent1, parent2) = parent_selection(selected, population);
 
-        parent1 = population[parent1_idx], parent2 = population[parent2_idx];
         if(!is_uniform) {  // whole arithmetic
             offspring1 = parent1, offspring2 = parent2;
             // double alpha = generate_alpha(1);
@@ -61,9 +86,7 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
                 offspring2.genes[i] = (parent2.genes[i] * alpha) + (parent1.genes[i] * (1-alpha));
                 offspring1.genes[i] = max(min(offspring1.genes[i], double(upper)), double(lower));
                 offspring2.genes[i] = max(min(offspring2.genes[i], double(upper)), double(lower));
-
             }
-
         } else {
             offspring1 = parent1, offspring2 = parent2;
             for(int i = 0; i < dim_n; i++) {
@@ -138,7 +161,7 @@ void R_GA::evolution() {
         double best = get_best_fitness(population, i);
         rga_fit[i] += best;
 
-        // if(i == 0 && i != term-1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        // if(i == 0) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
     }
 
     return;

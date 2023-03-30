@@ -21,6 +21,7 @@ public:
     vector<Individual> initialize_population(int dim);
     void evaluate_fitness(Individual& individual);
     
+    pair<Individual, Individual> parent_selection(vector<bool>& selected, vector<Individual>& population);
     vector<Individual> crossover(vector<Individual>& population, bool is_uniform);
     
     void mutate(vector<Individual>& population);

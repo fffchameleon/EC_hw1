@@ -18,8 +18,12 @@ main: $(SRC_FILES)
 
 .PHONY: run
 run: all
-	./main $(ARGS)
+#	./main $(ARGS)
 #	./main
+	for p in $$(seq 2 3 11); do \
+		time ./main --p_select $$p; \
+	done
+
 #	for p in $$(seq 100 300 1000); do \
 		time ./main --p_size $$p; \
 	done
@@ -40,6 +44,10 @@ run: all
 		time ./main --term $$p; \
 	done	
 
+	for p in $$(seq 2 1 9); do \
+		time ./main --n_point $$p --algorithm binary; \
+	done
+	
 .PHONY: plot
 plot:
 	python3 $(PLOT_DIR)/plot.py
