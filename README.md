@@ -19,7 +19,8 @@ To run the program, use the following command:
 ```bash
 make run ARGS="arg1 arg2"
 # or
-main arg1 arg2
+make
+./main arg1 arg2
 ```
 where arg1 and arg2 are optional command-line arguments.
 
@@ -39,17 +40,12 @@ If the --help option is set, the program will print the usage information and ex
 ```bash
 make run ARGS="--help"
 # or
-main --help
+./main --help
 ```
 #### Get Result 
 To directly get the result of the compilation, run, plot directly, run the following code (using default arguments),
 ```bash
 make result
-```
-This repository already had the executable file(main), you can run the project using the following code directly (using default arguments).
-```bash
-make run
-make plot
 ```
 
 #### Some command can use
