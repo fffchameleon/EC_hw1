@@ -54,10 +54,14 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
         parent1 = population[parent1_idx], parent2 = population[parent2_idx];
         if(!is_uniform) {  // whole arithmetic
             offspring1 = parent1, offspring2 = parent2;
-            double alpha = generate_alpha(1);
+            // double alpha = generate_alpha(1);
+            double alpha = rand_real(0, 1);
             for(int i = 0; i < dim_n; i++) {
                 offspring1.genes[i] = (parent1.genes[i] * alpha) + (parent2.genes[i] * (1-alpha));
                 offspring2.genes[i] = (parent2.genes[i] * alpha) + (parent1.genes[i] * (1-alpha));
+                offspring1.genes[i] = max(min(offspring1.genes[i], double(upper)), double(lower));
+                offspring2.genes[i] = max(min(offspring2.genes[i], double(upper)), double(lower));
+
             }
 
         } else {
@@ -112,12 +116,12 @@ double R_GA::get_best_fitness(vector<Individual>& population, int id) {
                               return a.fitness < b.fitness;
                           });
     
-    if((*it).fitness == 0 || id == term - 1) {
-        cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n";  
-        for(auto j : (*it).genes) 
-            cout << j << " ";
-        cout << "\n";
-    }
+    // if((*it).fitness == 0 || id == term - 1) {
+    //     cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n";  
+    //     for(auto j : (*it).genes) 
+    //         cout << j << " ";
+    //     cout << "\n";
+    // }
     return (*it).fitness;
 }
 
@@ -134,7 +138,7 @@ void R_GA::evolution() {
         double best = get_best_fitness(population, i);
         rga_fit[i] += best;
 
-        if((i % 200) == 0 && i != term-1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        // if(i == 0 && i != term-1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
     }
 
     return;

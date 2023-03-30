@@ -17,25 +17,33 @@ int main(int argc, char* argv[]) {
         std::cout << "  --n_point <value>    Set the number of crossover points (only for binary GA) (default: 2)\n\n";
         return 0;
     } 
-    string test = argv[1];
-    test = test.substr(2);
+    string test;
+    if(argc > 1) {
+        test = argv[1];
+        test = test.substr(2);
+    } else 
+        test = "default";
     for(int i = 0; i < 90; i++) std::cout << "=" << "\n"[i!=89];
 
     for(int t = 0; t < trial; t++) {
-        std::cout << "The " << t+1 <<  "th trial:\n";
-        std::cout << "Binary GA:\n";
+        // if(t == 0 || t == trial-1) {
+        //     std::cout << "The " << t+1 <<  "th trial:\n";
+        //     std::cout << "Binary GA:\n";
+        // }
         B_GA* bga = new B_GA(std::stoi(values["n_point"]));
         bga->evolution();
         delete bga;
 
-        for(int i = 0; i < 90; i++) std::cout << "=" << "\n"[i!=89];
+        // for(int i = 0; i < 90 && (t == 0 || t == trial-1); i++) std::cout << "=" << "\n"[i!=89];
         
-        std::cout << "Real-valued GA:\n";
+        // if(t == 0 || t == trial-1) {
+        //     std::cout << "Real-valued GA:\n";
+        // }
         R_GA* rga = new R_GA;
         rga->evolution();
         delete rga;
 
-        for(int i = 0; i < 90; i++) std::cout << "=" << "\n"[i!=89];
+        // for(int i = 0; i < 90 && (t == 0 || t == trial-1); i++) std::cout << "=" << "\n"[i!=89];
     }
     for(int i = 0; i < term; i++) {
         bga_fit[i] /= double(trial);

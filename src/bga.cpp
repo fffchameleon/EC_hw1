@@ -130,12 +130,12 @@ double B_GA::get_best_fitness(vector<Individual>& population, int id) {
                               return a.fitness < b.fitness;
                           });
 
-    if((*it).fitness < 1 || id == term - 1) {
-        cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n"; 
-        for(auto j : (*it).genes) 
-            cout << bit2int(j) << " ";
-        cout << "\n";
-    }
+    // if((*it).fitness < 1 || id == term - 1) {
+    //     cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n"; 
+    //     for(auto j : (*it).genes) 
+    //         cout << bit2int(j) << " ";
+    //     cout << "\n";
+    // }
     return (*it).fitness;
 }
 
@@ -152,7 +152,7 @@ void B_GA::evolution() {
 
         double best = get_best_fitness(population, i);
         bga_fit[i] += best;
-        if((i % 200) == 0 && i != term - 1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        // if(i == 0 && i != term - 1) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
     }
     
     return;

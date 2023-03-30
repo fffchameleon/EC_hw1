@@ -27,4 +27,5 @@ double rand_real(double min, double max);
 double generate_alpha(int up);
 std::pair<int, int> generate_range(int range);
 void write_to_file(const std::vector<double>& binary_data, const std::vector<double>& real_data, const std::string& filename);
+void write_to_file(const std::vector<double>& binary_data, const std::vector<double>& real_data, const std::string& filename);
 #endif 

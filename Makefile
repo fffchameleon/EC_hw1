@@ -18,9 +18,27 @@ main: $(SRC_FILES)
 
 .PHONY: run
 run: all
-	for p in $$(seq 100 200 1100); do \
-		./main --p_size $$p; \
+	for p in $$(seq 100 300 1000); do \
+		time ./main --p_size $$p; \
 	done
+
+#	for p in $$(seq 0.1 0.3 1); do \
+		time ./main --cross_prob $$p; \
+	done
+
+#	for p in $$(seq 0.1 0.3 1); do \
+	 	time ./main --mut_prob $$p; \
+	done
+
+# 	for p in $$(seq 0 1); do \
+# 		time ./main --uniform $$p; \
+# 	done
+
+#	for p in $$(seq 500 300 1100); do \
+#		time ./main --term $$p; \
+#	done	
+
+.PHONY: plot
 plot:
 	python3 $(PLOT_DIR)/plot.py
 

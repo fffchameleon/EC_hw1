@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iomanip>
+#include <chrono>
 int p_select = 2;
 int POPULATION_SIZE = 100;
 double cross_prob = 0.9;
@@ -36,6 +37,8 @@ void initialize(int argc, char* argv[]) {
     mut_prob = std::stod(values["mut_prob"]);
     trial = std::stoi(values["trial"]);
     term = std::stoi(values["term"]);
+    bga_fit.resize(term, 0);
+    rga_fit.resize(term, 0);
     is_uniform = (std::stoi(values["uniform"]) != 0);
     
     const int num_columns = 2;
@@ -55,8 +58,8 @@ const int lower = -512;
 const int upper = 511;
 
 // avg_fitness
-std::vector<double> bga_fit(term, 0);
-std::vector<double> rga_fit(term, 0);
+std::vector<double> bga_fit;
+std::vector<double> rga_fit;
 
 // best_fitness
 // std::vector<double> bga_fit(term, __DBL_MAX__);
@@ -97,10 +100,10 @@ std::pair<int, int> generate_range(int range) {
 void write_to_file(const std::vector<double>& binary_data, const std::vector<double>& real_data, const std::string& filename) {
     std::ofstream file(filename);
 
-    file << "Binary,Real" << std::endl;
+    file << "Binary,Real\n";
 
     for (size_t i = 0; i < binary_data.size(); ++i) {
-        file << binary_data[i] << "," << real_data[i] << std::endl;
+        file << binary_data[i] << "," << real_data[i] << "\n";
     }
 
     file.close();
