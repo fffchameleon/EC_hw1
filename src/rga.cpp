@@ -139,12 +139,12 @@ double R_GA::get_best_fitness(vector<Individual>& population, int id) {
                               return a.fitness < b.fitness;
                           });
     
-    // if((*it).fitness == 0 || id == term - 1) {
-    //     cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n";  
-    //     for(auto j : (*it).genes) 
-    //         cout << j << " ";
-    //     cout << "\n";
-    // }
+    if(detail && id == term - 1) {
+        cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n";  
+        for(auto j : (*it).genes) 
+            cout << j << " ";
+        cout << "\n";
+    }
     return (*it).fitness;
 }
 
@@ -161,7 +161,7 @@ void R_GA::evolution() {
         double best = get_best_fitness(population, i);
         rga_fit[i] += best;
 
-        // if(i == 0) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
+        if(detail && (i % 100 == 0)) cout << "In " << i+1 << "th generation, the best fitness is: " << best << "\n";  
     }
 
     return;

@@ -17,6 +17,7 @@ extern int term;
 extern bool is_uniform;
 extern bool binary;
 extern bool real;
+extern bool detail;
 
 extern const int lower;
 extern const int upper;

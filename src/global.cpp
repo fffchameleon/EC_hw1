@@ -13,7 +13,9 @@ double mut_prob = 0.1;
 int trial = 30;
 int term = 500;
 bool is_uniform = true;
+bool detail = false;
 std::map<std::string, std::string> values = {   {"algorithm", "both"},
+                                                {"detail", "0"},
                                                 {"p_select", "2"},
                                                 {"p_size", "100"},
                                                 {"cross_prob", "0.9"},
@@ -47,6 +49,8 @@ void initialize(int argc, char* argv[]) {
     
     real = (values["algorithm"] == "both" || values["algorithm"] == "real")? true : false;
     binary = (values["algorithm"] == "both" || values["algorithm"] == "binary")? true : false;
+
+    detail = (std::stoi(values["detail"]) != 0);
 
     const int num_columns = 2;
     const int column_width = 15;
