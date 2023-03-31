@@ -138,7 +138,7 @@ double R_GA::get_best_fitness(vector<Individual>& population, int id) {
                           [](const Individual& a, const Individual& b) {
                               return a.fitness < b.fitness;
                           });
-    
+
     if(detail && id == term - 1) {
         cout << "In " << id+1 << "th generation, the best fitness is: " << (*it).fitness << "\nWhen xi are, \n";  
         for(auto j : (*it).genes) 

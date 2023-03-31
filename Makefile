@@ -19,8 +19,8 @@ main: $(SRC_FILES)
 .PHONY: run
 run: all
 #	./main $(ARGS)
-#	./main
-	for p in $$(seq 2 3 11); do \
+	./main
+#	for p in $$(seq 2 3 11); do \
 		time ./main --p_select $$p; \
 	done
 

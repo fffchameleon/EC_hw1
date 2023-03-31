@@ -11,7 +11,7 @@ class B_GA
 private:
     int n_point;
     static constexpr int gene_length = 10;
-    static constexpr int dim_n = 10;
+    static constexpr int dim_n = 100;
     
     struct Individual {
         vector<bitset<gene_length>> genes;
