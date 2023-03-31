@@ -9,7 +9,7 @@ using namespace std;
 class R_GA
 {
 private:
-    static constexpr int dim_n = 100;
+    static constexpr int dim_n = 10;
     struct Individual {
         vector<double> genes;
         double fitness;

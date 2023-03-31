@@ -47,14 +47,17 @@ void B_GA::evaluate_fitness(Individual& individual) {
 
 pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<bool>& selected, vector<Individual>& population) {
     vector<int> parent_candidate;
-    std::generate_n(std::back_inserter(parent_candidate), p_select, [&]() {
-        int candidate_i;
-        do {
-            candidate_i = rand_int(0, POPULATION_SIZE - 1);
-        } while (selected[candidate_i]);
-        selected[candidate_i] = true;
-        return candidate_i;
-    });
+    int p = p_select;
+    while(p) {
+        vector<bool> candidate(POPULATION_SIZE, false);
+
+        int candidate_i = rand_int(0, POPULATION_SIZE-1);
+        if(!candidate[candidate_i] && !selected[candidate_i]) {
+            p--;
+            candidate[candidate_i] = true;
+            parent_candidate.emplace_back(candidate_i);
+        }
+    }
 
     auto first_min_it = std::min_element(parent_candidate.begin(), parent_candidate.end(),
         [&](int a, int b) { return population[a].fitness < population[b].fitness; });
@@ -81,7 +84,7 @@ vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is
     int t = POPULATION_SIZE / 2;
     Individual parent1, parent2, offspring1, offspring2;
     while(t--) {
-        tie(parent1, parent2) = parent_selection(selected, population);
+        auto [parent1, parent2] = parent_selection(selected, population);
         if(!is_uniform) {  // n-point crossover
             vector<int> crossover_points = generate_crossover_points(n_point, 1, gene_length - 1);
             offspring1 = parent1, offspring2 = parent2;
