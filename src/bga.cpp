@@ -110,15 +110,6 @@ vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is
                     offspring2.genes[i] = tmp;
                 }
             }
-            // auto [l, r] = generate_range(gene_length - 1);
-            // offspring1 = parent1, offspring2 = parent2;
-
-            // for(int i = l; i < r; i++) {
-            //     bitset<gene_length> tmp;
-            //     tmp = offspring1.genes[i];
-            //     offspring1.genes[i] = offspring2.genes[i];
-            //     offspring2.genes[i] = tmp;
-            // }
         } else {    // better (compare to each bit uniform)
             offspring1 = parent1, offspring2 = parent2;
             for(int i = 0; i < dim_n; i++) {
