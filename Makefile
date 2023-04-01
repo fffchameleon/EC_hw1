@@ -20,13 +20,6 @@ main: $(SRC_FILES)
 run: all
 	./main $(ARGS)
 #	./main
-#	for p in $$(seq 2 3 11); do \
-		time ./main --p_select $$p; \
-	done
-
-#	for p in $$(seq 100 300 1000); do \
-		time ./main --p_size $$p; \
-	done
 
 #	for p in $$(seq 0.1 0.3 1); do \
 		time ./main --cross_prob $$p; \
@@ -36,18 +29,26 @@ run: all
 	 	time ./main --mut_prob $$p; \
 	done
 
-#	for p in $$(seq 0 1 1); do \
-		time ./main --uniform $$p; \
+#	for p in $$(seq 2 1 9); do \
+		time ./main --n_point $$p --algorithm binary --uniform 0; \
+	done
+
+#	for p in $$(seq 2 3 11); do \
+		time ./main --p_select $$p; \
+	done
+
+#	for p in $$(seq 100 300 1000); do \
+		time ./main --p_size $$p; \
 	done
 
 #	for p in $$(seq 500 300 1100); do \
 		time ./main --term $$p; \
 	done	
 
-#	for p in $$(seq 2 1 9); do \
-		time ./main --n_point $$p --algorithm binary; \
+#	for p in $$(seq 0 1 1); do \
+		time ./main --uniform $$p; \
 	done
-	
+
 .PHONY: plot
 plot:
 	python3 $(PLOT_DIR)/plot.py

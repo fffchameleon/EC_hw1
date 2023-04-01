@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         cout << "  --detail <value>     Set the number of printing detail or not (default: 0)\n";
         cout << "  --cross_prob <value> Set the crossover probability (default: 0.9)\n";
         cout << "  --mut_prob <value>   Set the mutation probability (default: 0.1)\n";
-        cout << "  --n_point <value>    Set the number of crossover points (only for binary GA) (default: 2)\n\n";
+        cout << "  --n_point <value>    Set the number of crossover points (only for binary GA, and need to set uniform to 0) (default: 2)\n";
         cout << "  --p_select <value>   Set the number of tournament selection when parent selection period (default: 2)\n";
         cout << "  --p_size <value>     Set the population size (default: 100)\n";
         cout << "  --term <value>       Set the termination criterion (default: 500)\n";
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         if(binary)  bga_fit[i] /= double(trial);
         if(real)    rga_fit[i] /= double(trial);
     }
-    cout << "BGA the final generation fitness: " << bga_fit[term-1] << ", RGA the final generation fitness: " << rga_fit[term-1] << "\n";
+    cout << "BGA in the final generation fitness: " << bga_fit[term-1] << ", RGA in the final generation fitness: " << rga_fit[term-1] << "\n";
 
     string fileName = "./data/avgfitness_" + test + "_" + values[test] + ".csv";
     write_to_file(bga_fit, rga_fit, fileName);

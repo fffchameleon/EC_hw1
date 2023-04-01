@@ -79,8 +79,8 @@ vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is
 
         if(!is_uniform) {  // whole arithmetic
             offspring1 = parent1, offspring2 = parent2;
-            // double alpha = generate_alpha(1);
-            double alpha = rand_real(0, 1);
+            // double alpha = rand_int(1);
+            double alpha = generate_alpha(1);
             for(int i = 0; i < dim_n; i++) {
                 offspring1.genes[i] = (parent1.genes[i] * alpha) + (parent2.genes[i] * (1-alpha));
                 offspring2.genes[i] = (parent2.genes[i] * alpha) + (parent1.genes[i] * (1-alpha));

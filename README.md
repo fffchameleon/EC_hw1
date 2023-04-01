@@ -30,7 +30,7 @@ where arg1 and arg2 are optional command-line arguments.
 | `--detail`                | Set the number of printing detail or not (default: 0)                                                         |
 | `--cross_prob`            | Set the crossover probability (default: 0.9)                                                                  |
 | `--mut_prob`              | Set the mutation probability (default: 0.1)                                                                   |
-| `--n_point`               | Set the number of crossover points (only for binary GA) (default: 2)                                          |
+| `--n_point`               | Set the number of crossover points (only for binary GA, and need to set uniform to 0) (default: 2)            |
 | `--p_select`              | Set the number of tournament selection when parent selection period (default: 2)                              |
 | `--p_size`                | Set the population size (default: 100)                                                                        |
 | `--term`                  | Set the termination criterion (default: 500)                                                                  |
