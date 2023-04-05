@@ -62,11 +62,13 @@ public:
     
     /**
      * @brief Selects a pair of parents from the given population.
-     * @param selected A vector of bool values indicating if an individual is already selected as a parent.
      * @param population The population from this generation.
      * @return A pair of selected parent individuals.
      */
-    pair<Individual, Individual> parent_selection(vector<bool>& selected, vector<Individual>& population);
+    pair<Individual, Individual> parent_selection(vector<Individual>& population);
+    /* @param selected A vector of bool values indicating if an individual is already selected as a parent.*/
+    // pair<Individual, Individual> parent_selection(vector<bool>& selected, vector<Individual>& population);
+    
 
     /**
      * @brief Perform crossover operation on the given population.

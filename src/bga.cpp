@@ -45,14 +45,16 @@ void B_GA::evaluate_fitness(Individual& individual) {
     individual.fitness = fit;
 }
 
-pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<bool>& selected, vector<Individual>& population) {
+// pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<bool>& selected, vector<Individual>& population) {
+pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<Individual>& population) {
     vector<int> parent_candidate;
     int p = p_select;
     while(p) {
         vector<bool> candidate(POPULATION_SIZE, false);
 
         int candidate_i = rand_int(0, POPULATION_SIZE-1);
-        if(!candidate[candidate_i] && !selected[candidate_i]) {
+        // if(!candidate[candidate_i] && !selected[candidate_i]) {
+        if(!candidate[candidate_i]) {
             p--;
             candidate[candidate_i] = true;
             parent_candidate.emplace_back(candidate_i);
@@ -62,14 +64,14 @@ pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<bool>& se
     auto first_min_it = std::min_element(parent_candidate.begin(), parent_candidate.end(),
         [&](int a, int b) { return population[a].fitness < population[b].fitness; });
     int first_min_id = *first_min_it;
-    selected[first_min_id] = true;
+    // selected[first_min_id] = true;
     parent_candidate.erase(first_min_it);
     
 
     auto second_min_it = std::min_element(parent_candidate.begin(), parent_candidate.end(),
         [&](int a, int b) { return population[a].fitness < population[b].fitness; });
     int second_min_id = *second_min_it;
-    selected[second_min_id] = true;
+    // selected[second_min_id] = true;
     return {population[first_min_id], population[second_min_id]};
 }
 
@@ -77,14 +79,16 @@ vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is
     if(rand_real(0, 1) > cross_prob) 
         return population;
 
-    vector<bool> selected(POPULATION_SIZE, false);
+    // vector<bool> selected(POPULATION_SIZE, false);
     vector<Individual> offspring;
 
     // parent selection
-    int t = POPULATION_SIZE / 2;
+    // int t = POPULATION_SIZE / 2;
+    int t = POPULATION_SIZE;
     Individual parent1, parent2, offspring1, offspring2;
     while(t--) {
-        auto [parent1, parent2] = parent_selection(selected, population);
+        // auto [parent1, parent2] = parent_selection(selected, population);
+        auto [parent1, parent2] = parent_selection(population);
         if(!is_uniform) {  // n-point crossover
             vector<int> crossover_points = generate_crossover_points(n_point, 1, gene_length - 1);
             offspring1 = parent1, offspring2 = parent2;
