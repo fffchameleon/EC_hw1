@@ -72,10 +72,6 @@ const int upper = 511;
 std::vector<double> bga_fit;
 std::vector<double> rga_fit;
 
-// best_fitness
-// std::vector<double> bga_fit(term, __DBL_MAX__);
-// std::vector<double> rga_fit(term, __DBL_MAX__);
-
 std::random_device rd;
 std::mt19937 gen(rd());
 

@@ -16,7 +16,7 @@ private:
     /**
      * @brief The Individual struct represents an individual in the population, which means a solution xi for SCH function.
      */
-    static constexpr int dim_n = 10;
+    static constexpr int dim_n = 100;
     struct Individual {
         vector<double> genes;
         double fitness;
@@ -90,8 +90,9 @@ public:
      */
     void print_population(vector<Individual>& population) {
         for(auto i : population) {
-            for(auto j : i.genes) 
-                cout << j << " ";
+            cout << i.fitness;
+            // for(auto j : i.genes) 
+            //     cout << j << " ";
             cout << "\n";
         }
     }

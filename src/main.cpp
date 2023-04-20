@@ -55,7 +55,22 @@ int main(int argc, char* argv[]) {
     }
     cout << "BGA in the final generation fitness: " << bga_fit[term-1] << ", RGA in the final generation fitness: " << rga_fit[term-1] << "\n";
 
-    string fileName = "./data/avgfitness_" + test + "_" + values[test] + ".csv";
+    string fileName = "";
+    if(binary) {
+        fileName += "./data/binary_";
+        if(is_uniform) 
+            fileName += "uniform_";
+        else
+            fileName += "2p_";
+        fileName += (test + " " + values[test] + ".csv");
+    } else {
+        fileName += "./data/real_";
+        if(is_uniform) 
+            fileName += "uniform_";
+        else
+            fileName += "arith_";
+        fileName += (test + " " + values[test] + ".csv");
+    }
     write_to_file(bga_fit, rga_fit, fileName);
     return 0;
 }
