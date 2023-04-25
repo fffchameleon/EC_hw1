@@ -8,8 +8,8 @@ bool real = true;
 bool binary = true;
 int p_select = 2;
 int POPULATION_SIZE = 100;
-double cross_prob = 0.9;
-double mut_prob = 0.1;
+double pc = 0.9;
+double pm = 0.1;
 int trial = 30;
 int term = 500;
 bool is_uniform = true;
@@ -18,8 +18,8 @@ std::map<std::string, std::string> values = {   {"algorithm", "both"},
                                                 {"detail", "0"},
                                                 {"p_select", "2"},
                                                 {"p_size", "100"},
-                                                {"cross_prob", "0.9"},
-                                                {"mut_prob", "0.1"},
+                                                {"pc", "0.9"},
+                                                {"pm", "0.1"},
                                                 {"trial", "30"},
                                                 {"term", "500"},
                                                 {"uniform", "1"},
@@ -39,8 +39,8 @@ void initialize(int argc, char* argv[]) {
 
     p_select = std::stoi(values["p_select"]);
     POPULATION_SIZE = std::stoi(values["p_size"]);
-    cross_prob = std::stod(values["cross_prob"]);
-    mut_prob = std::stod(values["mut_prob"]);
+    pc = std::stod(values["pc"]);
+    pm = std::stod(values["pm"]);
     trial = std::stoi(values["trial"]);
     term = std::stoi(values["term"]);
     bga_fit.resize(term, 0);

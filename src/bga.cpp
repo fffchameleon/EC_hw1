@@ -72,7 +72,7 @@ pair<B_GA::Individual, B_GA::Individual> B_GA::parent_selection(vector<Individua
 }
 
 vector<B_GA::Individual> B_GA::crossover(vector<Individual>& population, bool is_uniform) {
-    if(rand_real(0, 1) > cross_prob) 
+    if(rand_real(0, 1) > pc) 
         return population;
 
     vector<Individual> offspring;
@@ -123,7 +123,7 @@ void B_GA::mutate(vector<Individual>& population) {
     for(auto& i : population) {
         for(auto& j : i.genes) {
             for(int k = 0; k < gene_length; k++) {
-                if(rand_real(0, 1) < mut_prob) {
+                if(rand_real(0, 1) < pm) {
                     has_mutate = true;
                     j.flip(k);
                 }

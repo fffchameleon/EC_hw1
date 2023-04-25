@@ -56,7 +56,7 @@ pair<R_GA::Individual, R_GA::Individual> R_GA::parent_selection(vector<Individua
 }
 
 vector<R_GA::Individual> R_GA::crossover(vector<Individual>& population, bool is_uniform) {
-    if(rand_real(0, 1) > cross_prob) 
+    if(rand_real(0, 1) > pc) 
         return population;
 
     vector<Individual> offspring;
@@ -96,7 +96,7 @@ void R_GA::mutate(vector<Individual>& population) {
     bool has_mutate = false;
     for(auto& i : population) {
         for(auto& j : i.genes) {
-            if(rand_real(0, 1) < mut_prob) {
+            if(rand_real(0, 1) < pm) {
                 has_mutate = true;
                 j = rand_real(lower, upper);
             }

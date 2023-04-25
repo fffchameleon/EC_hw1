@@ -10,8 +10,8 @@
 extern std::map<std::string, std::string> values;
 extern int p_select;                                ///< number of parent select
 extern int POPULATION_SIZE;
-extern double cross_prob;
-extern double mut_prob;
+extern double pc;
+extern double pm;
 extern int trial;
 extern int term;                                    ///< Number of generations
 extern bool is_uniform;

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 folder_path = 'data'
 
 conditions = [
-    ('uniform'),
+    # ('uniform'),
     # ('binary', 'cross_prob'),
     # ('real', 'cross_prob'),
     # ('binary', 'mut_prob'),
@@ -30,20 +30,23 @@ def plot_condition(condition):
         if all(c in file for c in condition):
             found = True
             df = pd.read_csv(os.path.join(folder_path, file))
-            label = '_'.join(file.split('_')[:2])
-            # plt.plot(df, label=file[:-4])
-            plt.plot(df, label=label)
+            _, var = file.split()
+            var, _ = var.split('.')
+            # label = '_'.join(file.split('_')[:2])
+            plt.plot(df, label=file[:-4])
+            # plt.plot(df, label=f'binary_n_point_{var}')
+            # plt.plot(df, label=label)
 
     if not found:
         plt.close()
         return
 
     title = ' '.join(condition)
-    plt.title("default")
+    plt.title(title)
     plt.xlabel('Generation')
     plt.ylabel('Fitness')
     plt.legend(loc='best')
-    plt.savefig(os.path.join("show", f"{'_'.join(condition)}.png"))
+    plt.savefig(os.path.join("showbuffer", f"{'_'.join(condition)}.png"))
     plt.close()
 
 
